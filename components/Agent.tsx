@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { vapi } from "@/lib/vapi.sdk";
 
-
 enum CallStatus {
   INACTIVE = "INACTIVE",
   ACTIVE = "ACTIVE",
@@ -23,7 +22,6 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
-  const [lastMessage, setLastMessage] = useState<string>("");
 
   useEffect(() => {
     const onCallStart = () => {
@@ -76,7 +74,6 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
-    console.log("WORKFLOW_ID:", process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID);
 
     await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
       variableValues: {
@@ -90,7 +87,7 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
     vapi.stop();
   };
 
-  const latestMessage = messages[messages.length - 1];
+  const latestMessage = messages[messages.length - 1]?.content;
   const isCallInactiveOrFinished =
     callStatus === CallStatus.INACTIVE || callStatus === CallStatus.FINISHED;
 
@@ -127,14 +124,14 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
       {messages.length > 0 && (
         <div className="transcript-border">
           <div className="transcript">
-          <p
-              key={lastMessage}
+            <p
+              key={latestMessage}
               className={cn(
                 "transition-opacity duration-500 opacity-0",
                 "animate-fadeIn opacity-100"
               )}
             >
-              {lastMessage}
+              {latestMessage}
             </p>
           </div>
         </div>
@@ -155,7 +152,9 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
             </span>
           </button>
         ) : (
-          <button className="btn-disconnect" onClick={handleDisconnect}>Finalizar Entrevista</button>
+          <button className="btn-disconnect" onClick={handleDisconnect}>
+            Finalizar Entrevista
+          </button>
         )}
       </div>
     </>
