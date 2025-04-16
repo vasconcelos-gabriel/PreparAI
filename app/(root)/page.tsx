@@ -1,11 +1,10 @@
 import InterviewCard from "@/components/InterviewCard";
 import { Button } from "@/components/ui/button";
-import { dummyInterviews } from "@/constants";
+
 import {
   getCurrentUser,
-  getInterviewByUserId,
-  getLatestInterviews,
 } from "@/lib/actions/auth.action";
+import { getInterviewByUserId, getLatestInterviews } from "@/lib/actions/general.action";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -55,7 +54,7 @@ const hasUpcomingInterviews = latestInterviews?.length > 0;
               <InterviewCard
                 key={interview.id}
                 userId={user?.id}
-                interviewId={interview.id}
+                id={interview.id}
                 role={interview.role}
                 type={interview.type}
                 techstack={interview.techstack}
@@ -77,7 +76,7 @@ const hasUpcomingInterviews = latestInterviews?.length > 0;
               <InterviewCard
                 key={interview.id}
                 userId={user?.id}
-                interviewId={interview.id}
+                id={interview.id}
                 role={interview.role}
                 type={interview.type}
                 techstack={interview.techstack}

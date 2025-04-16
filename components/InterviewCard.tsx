@@ -1,24 +1,27 @@
-import React from 'react'
-import dayjs from 'dayjs'
-import Image from 'next/image'
-import { getRandomInterviewCover } from '@/lib/utils'
-import { Button } from './ui/button'
-import Link from 'next/link'
-import DisplayTechIcons from './DisplayTechIcons'
+import React from "react";
+import dayjs from "dayjs";
+import Image from "next/image";
+import { getRandomInterviewCover } from "@/lib/utils";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import DisplayTechIcons from "./DisplayTechIcons";
+import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
-const InterviewCard = ({
-  interviewId,
+const InterviewCard = async ({
+  id,
   userId,
   role,
   type,
   techstack,
   createdAt,
 }: InterviewCardProps) => {
-  const feedback = null as Feedback | null
-  const normalizedType = /mix/gi.test(type) ? 'Mixed' : type
+  const feedback = userId && id ?
+  await getFeedbackByInterviewId({ interviewId: id, userId })
+  : null;
+  const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
   const formattedDate = dayjs(
-    feedback?.createdAt || createdAt || Date.now(),
-  ).format('MMM D, YYYY')
+    feedback?.createdAt || createdAt || Date.now()
+  ).format("MMM D, YYYY");
 
   return (
     <div className="card-border w-[360px] max-sm:w-full min-h-96">
@@ -50,12 +53,12 @@ const InterviewCard = ({
 
             <div className="flex flex-row gap-2 items-center">
               <Image src="/star.svg" alt="star" width={22} height={22} />
-              <p>{feedback?.totalScore || '---'}/100</p>
+              <p>{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>
           <p className="line-clamp-2 mt-5">
             {feedback?.finalAssessment ||
-              'Você ainda não fez uma entrevista. Faça uma agora para melhorar suas habilidades!'}
+              "Você ainda não fez uma entrevista. Faça uma agora para melhorar suas habilidades!"}
           </p>
         </div>
         <div className="flex flex-row justify-between">
@@ -63,19 +66,15 @@ const InterviewCard = ({
 
           <Button className="btn-primary">
             <Link
-              href={
-                feedback
-                  ? `/interview/${interviewId}/feedback`
-                  : '/interview/${interviewId}'
-              }
+              href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
             >
-              {feedback ? 'Ver feedback' : 'Ver entrevista'}
+              {feedback ? "Ver feedback" : "Ver entrevista"}
             </Link>
           </Button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InterviewCard
+export default InterviewCard;
