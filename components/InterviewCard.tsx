@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import DisplayTechIcons from "./DisplayTechIcons";
 import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
+import ClientButton from "./ClientButton";
 
 const InterviewCard = async ({
   id,
@@ -64,13 +65,14 @@ const InterviewCard = async ({
         <div className="flex flex-row justify-between">
           <DisplayTechIcons techStack={techstack} />
 
-          <Button className="btn-primary">
-            <Link
-              href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
-            >
+          <ClientButton
+            href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
+            variant="primary"
+          >
+            <p className="text-sm font-semibold text-black">
               {feedback ? "Ver feedback" : "Fazer Entrevista"}
-            </Link>
-          </Button>
+            </p>
+          </ClientButton>
         </div>
       </div>
     </div>
