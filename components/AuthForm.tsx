@@ -150,13 +150,19 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </Form>
         <p className="text-center">
           {isSignIn ? "Ainda não tem uma conta?" : "Já possui conta?"}
-
-          <Link
-            href={!isSignIn ? "/sign-in" : "/sign-up"}
-            className="font-bold text-user-primary ml-1"
+          <button
+            onClick={() => {
+              setIsLoading(true);
+            }}
+            disabled={isLoading}
           >
-            {!isSignIn ? "Entrar" : "Cadastre-se"}
-          </Link>
+            <Link
+              href={!isSignIn ? "/sign-in" : "/sign-up"}
+              className="font-bold text-user-primary ml-1"
+            >
+              {!isSignIn ? "Entrar" : "Cadastre-se"}
+            </Link>
+          </button>
         </p>
       </div>
     </div>
