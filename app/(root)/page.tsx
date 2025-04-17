@@ -62,7 +62,7 @@ const hasUpcomingInterviews = latestInterviews?.length > 0;
               />
             ))
           ) : (
-            <p>Você ainda não fez nenhuma entrevista</p>
+            <p>Você ainda não gerou nenhuma entrevista</p>
           )}
         </div>
       </section>

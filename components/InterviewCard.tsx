@@ -38,7 +38,7 @@ const InterviewCard = async ({
             className="rounded-full object-fit"
           />
 
-          <h3 className="mt-5 capitalize">{role} Interview</h3>
+          <h3 className="mt-5 capitalize">{role}</h3>
 
           <div className="flex flex-row gap-5 mt-3">
             <div className="flex flex-row gap-2">
@@ -68,7 +68,7 @@ const InterviewCard = async ({
             <Link
               href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
             >
-              {feedback ? "Ver feedback" : "Ver entrevista"}
+              {feedback ? "Ver feedback" : "Fazer Entrevista"}
             </Link>
           </Button>
         </div>

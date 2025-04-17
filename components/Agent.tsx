@@ -77,21 +77,21 @@ const Agent = ({
   }, []);
 
   const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-    console.log('Generate feedback here.');
+    console.log("Generate feedback here.");
 
     const { success, feedbackId: id } = await createFeedback({
-        interviewId: interviewId!,
-        userId: userId!,
-        transcript: messages,
-    })
+      interviewId: interviewId!,
+      userId: userId!,
+      transcript: messages,
+    });
 
-    if(success && id) {
-        router.push(`/interview/${interviewId}/feedback`);
+    if (success && id) {
+      router.push(`/interview/${interviewId}/feedback`);
     } else {
-        console.log('Error saving feedback');
-        router.push('/');
+      console.log("Error saving feedback");
+      router.push("/");
     }
-}
+  };
 
   useEffect(() => {
     if (callStatus === CallStatus.FINISHED) {
@@ -194,12 +194,15 @@ const Agent = ({
               )}
             />
 
-            <span className="relative">
-              {isCallInactiveOrFinished ? "Chamar Entrevistador" : ". . ."}
+            <span className="relative cursor-pointer">
+              {isCallInactiveOrFinished ? "Iniciar Chamada" : ". . ."}
             </span>
           </button>
         ) : (
-          <button className="btn-disconnect" onClick={handleDisconnect}>
+          <button
+            className="btn-disconnect cursor-pointer"
+            onClick={handleDisconnect}
+          >
             Finalizar Entrevista
           </button>
         )}
