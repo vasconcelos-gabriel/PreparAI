@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   FormControl,
-  FormDescription,
   FormItem,
   FormLabel,
   FormMessage,
@@ -15,6 +14,7 @@ interface FormFieldProps<T extends FieldValues> {
   label: string
   placeholder?: string
   type?: 'text' | 'email' | 'password' | 'file'
+  disabled?: boolean;
 }
 
 const FormField = ({
@@ -23,6 +23,7 @@ const FormField = ({
   label,
   placeholder,
   type = 'text',
+  disabled
 }: FormFieldProps<T>) => (
   <Controller
     name={name}
@@ -36,6 +37,7 @@ const FormField = ({
             placeholder={placeholder}
             type={type}
             {...field}
+            disabled={disabled}
           />
         </FormControl>
         <FormMessage />
