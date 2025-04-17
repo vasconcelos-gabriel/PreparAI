@@ -7,10 +7,15 @@ import {
 import { getInterviewByUserId, getLatestInterviews } from "@/lib/actions/general.action";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
   const user = await getCurrentUser();
+
+  if (!user || !user.id) {
+    redirect("/sign-in");
+  }
   const [userInterviews, latestInterviews ] = await Promise.all([
     await getInterviewByUserId(user?.id!),
     await getLatestInterviews({ userId: user?.id! }),
