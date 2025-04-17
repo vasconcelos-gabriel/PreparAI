@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { vapi } from "@/lib/vapi.sdk";
 import { interviewer } from "@/constants";
 import { createFeedback } from "@/lib/actions/general.action";
+import Loader from "./Loader";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -30,6 +31,8 @@ const Agent = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
+
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
 
   useEffect(() => {
     const onCallStart = () => {
@@ -78,6 +81,7 @@ const Agent = ({
 
   const handleGenerateFeedback = async (messages: SavedMessage[]) => {
     console.log("Generate feedback here.");
+    setIsGeneratingFeedback(true);
 
     const { success, feedbackId: id } = await createFeedback({
       interviewId: interviewId!,
@@ -195,7 +199,7 @@ const Agent = ({
             />
 
             <span className="relative cursor-pointer">
-              {isCallInactiveOrFinished ? "Iniciar Chamada" : ". . ."}
+              {isCallInactiveOrFinished ? "Iniciar Chamada" : <Loader />}
             </span>
           </button>
         ) : (
@@ -207,6 +211,12 @@ const Agent = ({
           </button>
         )}
       </div>
+      {isGeneratingFeedback && (
+        <div className="fixed inset-0 z-50 bg-pattern flex flex-col items-center justify-center">
+          <Loader />
+          <p className="mt-4 text-xl font-semibold ">Gerando feedback...</p>
+        </div>
+      )}
     </>
   );
 };
