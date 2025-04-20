@@ -64,11 +64,13 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         if (!result?.success) {
           toast.error(result?.message);
+          setIsLoading(false);
           return;
         }
 
         toast.success("Conta criada com sucesso");
         router.push("/sign-in");
+        return; 
       } else {
         const { email, password } = values;
 
@@ -82,20 +84,18 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         if (!idToken) {
           toast.error("Erro ao fazer login");
+          setIsLoading(false);
           return;
         }
 
-        await signIn({
-          email,
-          idToken,
-        });
+        await signIn({ email, idToken });
         toast.success("Logado com sucesso");
         router.push("/");
+        return; 
       }
     } catch (error) {
       console.error(error);
       toast.error("Ocorreu um erro");
-    } finally {
       setIsLoading(false);
     }
   }
