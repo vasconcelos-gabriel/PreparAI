@@ -25,9 +25,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   if (!checkedAuth) return null;
 
   return (
-    <div className="root-layout flex flex-col min-h-screen">
+    <div className="root-layout">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      {children}
       <Footer />
     </div>
   );
