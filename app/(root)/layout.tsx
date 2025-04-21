@@ -1,55 +1,34 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { isAuthenticated, signOut } from "@/lib/actions/auth.action";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState, ReactNode } from "react";
+import { isAuthenticated } from "@/lib/actions/auth.action";
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [checkedAuth, setCheckedAuth] = useState(false);
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const authenticated = await isAuthenticated();
-      setIsUserAuthenticated(authenticated);
-
-      if (!authenticated) {
+    const checkAuth = async () => {
+      const auth = await isAuthenticated();
+      if (!auth) {
         redirect("/sign-in");
+      } else {
+        setCheckedAuth(true);
       }
     };
 
-    checkAuthentication();
+    checkAuth();
   }, []);
 
-  const handleLogout = async () => {
-    await signOut();
-    redirect("/sign-in");
-  };
+  if (!checkedAuth) return null;
 
   return (
-    <div className="root-layout">
-      <nav className="flex justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="logo" height={32} width={38} />
-          <h2 className="text-primary-100">PreparAI</h2>
-        </Link>
-
-        <div>
-          {isUserAuthenticated ? (
-            <Button onClick={handleLogout} className="btn-primary">
-              Sair
-            </Button>
-          ) : (
-            <Button className="btn-primary">
-              <Link href="/sign-in">Entrar</Link>
-            </Button>
-          )}
-        </div>
-      </nav>
-      {children}
+    <div className="root-layout flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-1">{children}</main>
+      <Footer />
     </div>
   );
 };
